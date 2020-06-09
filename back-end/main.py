@@ -1,6 +1,6 @@
 from flask import Flask, request, send_from_directory
 app = Flask(__name__, static_url_path='/static', static_folder='static')
-
+app.config.from_pyfile('config/app.cfg')
 mock_data = [
     {
         'name': 'Por',
@@ -15,7 +15,6 @@ mock_data = [
         'name': 'Film',
     }
 ]
-
 @app.route('/')
 def get_all():
     return mock_data
