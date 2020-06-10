@@ -2,7 +2,8 @@ from flask import Flask, request, send_from_directory, Response
 
 app = Flask(__name__, static_url_path='/static', static_folder='static')
 app.config.from_pyfile('config/app.cfg')
-mock_data = [
+
+__mock_data = [
     {
         'name': 'Por',
     },
@@ -16,9 +17,10 @@ mock_data = [
         'name': 'Film',
     }
 ]
-@app.route('/')
+
+@app.route('/', methods=['GET'])
 def get_all():
-    return mock_data
+    return {"data": __mock_data}
 
 @app.route('/create', methods=['POST'])
 def add_data():
@@ -27,9 +29,12 @@ def add_data():
     except Exception as e:
         pass
     for v in req_json['data']:
-        mock_data.append({'nane': v})
-    return {'data': mock_data}
+        __mock_data.append({'nane': v})
+    return {'data': __mock_data}
 
 @app.route('/HealthCheck', methods=['POST', 'GET'])
 def health_check():
     return Response("I'm Alive", mimetype="text/plain")
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
