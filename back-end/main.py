@@ -1,4 +1,5 @@
-from flask import Flask, request, send_from_directory
+from flask import Flask, request, send_from_directory, Response
+
 app = Flask(__name__, static_url_path='/static', static_folder='static')
 app.config.from_pyfile('config/app.cfg')
 mock_data = [
@@ -28,3 +29,7 @@ def add_data():
     for v in req_json['data']:
         mock_data.append({'nane': v})
     return {'data': mock_data}
+
+@app.route('/HealthCheck', methods=['POST', 'GET'])
+def health_check():
+    return Response("I'm Alive", mimetype="text/plain")
