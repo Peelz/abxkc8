@@ -30,6 +30,10 @@ def get_all():
 def home():
     return send_from_directory(os.path.join(app.static_folder, "js"), f'mbs-{constants.INSTANCE_UUID}.js')
 
+@app.route('/demo', methods=['GET'])
+def demo():
+    return send_from_directory(os.path.join(app.static_folder, "js"), 'demo.html')
+
 @app.route('/create', methods=['POST'])
 def add_data():
     try:
