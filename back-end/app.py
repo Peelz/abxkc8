@@ -1,6 +1,9 @@
 from flask import Flask, request, send_from_directory, Response
+import os 
+from .commons import constants
 
 app = Flask(__name__, static_url_path='/static', static_folder='static')
+# app = Flask(__name__)
 app.config.from_pyfile('config/app.cfg')
 
 __mock_data = [
@@ -21,6 +24,10 @@ __mock_data = [
 @app.route('/', methods=['GET'])
 def get_all():
     return {"data": __mock_data}
+
+@app.route('/home', methods=['GET'])
+def home():
+    return send_from_directory(os.path.join(app.static_folder, "js"), f'mbs-{constants.INSTANCE_UUID}.js')
 
 @app.route('/create', methods=['POST'])
 def add_data():
